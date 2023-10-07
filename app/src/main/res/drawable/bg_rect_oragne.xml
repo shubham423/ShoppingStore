@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/listview_background_shape">
-    <corners android:radius="24dp" />
+    <corners android:radius="12dp" />
     <gradient
         android:startColor="#FBA03D"
         android:endColor="#FAC834"
