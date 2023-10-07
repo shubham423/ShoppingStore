@@ -10,15 +10,19 @@ import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.databinding.ItemCategoryBinding
 import com.example.shoppingcart.databinding.ItemCategoryFilterBinding
 import com.example.shoppingcart.presentation.home.ProductAdapter
+import com.example.shoppingcart.util.setSafeOnClickListener
 
 
-class CategoryFilterAdapter :
-    ListAdapter<Category, CategoryFilterAdapter.CategoryFilterViewHolder>(CategoryDiffCallback()) {
+class CategoryFilterAdapter(val caterClicked: (category: Category) -> Unit) :
+    ListAdapter<Category, CategoryFilterAdapter.CategoryFilterViewHolder>(CategoryFilterDiffCallback()) {
 
     inner class CategoryFilterViewHolder(private val binding: ItemCategoryFilterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category) {
             binding.tvCategory.text = category.name
+            binding.tvCategory.setSafeOnClickListener {
+                caterClicked.invoke(category)
+            }
         }
     }
 

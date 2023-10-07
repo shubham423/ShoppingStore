@@ -103,4 +103,31 @@
             android:textColor="@color/white"
             android:text="@string/text_categories" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/btn_close_dialog"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        android:background="@drawable/rounded_square_button_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:clickable="false"
+            android:focusable="false"
+            android:visibility="invisible" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_add" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
