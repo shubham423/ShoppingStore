@@ -3,6 +3,7 @@ package com.example.shoppingcart.presentation.home
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,29 +34,41 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         dialogBinding= DialogCatogoriesBinding.inflate(layoutInflater)
         dialog= Dialog(requireContext())
+        categoryFilterAdapter = CategoryFilterAdapter()
         val categoryAdapter = CategoryAdapter()
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvProducts.adapter = categoryAdapter
         viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
            categoryAdapter.submitList(categories)
-            categoryFilterAdapter.submitList(categories)
+        }
+
+        initClickListeners()
+    }
+
+    private fun initClickListeners() {
+        binding.btnCategories.setOnClickListener {
+            showCustomDialog()
         }
     }
 
     private fun showCustomDialog() {
         val layoutManager = LinearLayoutManager(requireContext())
         dialogBinding.rvCategories.layoutManager = layoutManager
-
-        categoryFilterAdapter = CategoryFilterAdapter( )
         dialogBinding.rvCategories.adapter = categoryFilterAdapter
 
         val alertDialog = AlertDialog.Builder(requireContext())
             .setView(dialogBinding.root)
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
             .create()
         alertDialog.show()
+        val layoutParams = alertDialog.window?.attributes
+        layoutParams?.y = 200
+
+        alertDialog.window?.attributes = layoutParams
+        alertDialog.window?.setGravity(Gravity.BOTTOM)
+
+        viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
+            categoryFilterAdapter.submitList(categories)
+        }
     }
 }
 
