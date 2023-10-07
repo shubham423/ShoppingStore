@@ -2,27 +2,24 @@ package com.example.shoppingcart.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.databinding.ItemCategoryBinding
 import com.example.shoppingcart.presentation.home.ProductAdapter
 
-class CategoryAdapter() :
-    RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
-    private var categories: List<Category> = emptyList()
-
-    fun updateData(list: List<Category>) {
-        categories = emptyList()
-        categories = list
-    }
+class CategoryAdapter :
+    ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
     inner class CategoryViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category) {
             binding.tvTitle.text = category.name
-            val productAdapter = ProductAdapter(category.items)
+            val productAdapter = ProductAdapter()
+            productAdapter.submitList(category.items)
             binding.productRecyclerView.layoutManager =
                 LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
             binding.productRecyclerView.adapter = productAdapter
@@ -36,11 +33,16 @@ class CategoryAdapter() :
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(categories[position])
+        holder.bind(getItem(position))
+    }
+}
+
+class CategoryDiffCallback : DiffUtil.ItemCallback<Category>() {
+    override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun getItemCount(): Int {
-        return categories.size
+    override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+        return oldItem == newItem
     }
-
 }

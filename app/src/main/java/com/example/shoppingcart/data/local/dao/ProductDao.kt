@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.shoppingcart.data.local.ProductEntity
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
@@ -17,5 +17,5 @@ interface ProductDao {
     suspend fun deleteProduct(product: ProductEntity)
 
     @Query("SELECT * FROM products")
-    fun getAllProducts(): StateFlow<List<ProductEntity>>
+    fun getAllProducts(): Flow<List<ProductEntity>>
 }

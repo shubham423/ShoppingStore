@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.shoppingcart.data.local.FavoriteProductEntity
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteProductDao {
@@ -17,5 +17,5 @@ interface FavoriteProductDao {
     suspend fun deleteFavoriteProduct(favoriteProduct: FavoriteProductEntity)
 
     @Query("SELECT * FROM favorite_products")
-    fun getAllFavoriteProducts(): StateFlow<List<FavoriteProductEntity>>
+    fun getAllFavoriteProducts(): Flow<List<FavoriteProductEntity>>
 }
