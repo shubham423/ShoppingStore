@@ -12,8 +12,10 @@ import com.example.shoppingcart.presentation.BaseFragment
 import com.example.shoppingcart.presentation.CategoryAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun inflateBinding(
         inflater: LayoutInflater,
@@ -30,29 +32,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val categoryAdapter = CategoryAdapter(categories)
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvProducts.adapter = categoryAdapter
-    }
-
-    fun getJsonDataFromAsset(
-        context: Context,
-        fileName: String
-    ): String? {
-        val jsonString: String
-        try {
-            jsonString = context.assets.open(fileName).bufferedReader().use {
-                it.readText()
-            }
-        } catch (exp: IOException) {
-            exp.printStackTrace()
-            return null
-        }
-
-        return jsonString
-    }
-
-    fun musicList(context: Context): ProductsResponse {
-        val jsonFileString = getJsonDataFromAsset(context = context, "shopping.json")
-        val type = object : TypeToken<ProductsResponse>() {}.type
-        return Gson().fromJson(jsonFileString, type)
     }
 }
 
