@@ -8,8 +8,15 @@ import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.databinding.ItemHeaderBinding
 import com.example.shoppingcart.presentation.home.ProductAdapter
 
-class CategoryAdapter(private val categories: List<Category>) :
+class CategoryAdapter() :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+
+    var categories: List<Category> = emptyList()
+
+    fun updateData(list: List<Category>) {
+        categories = emptyList()
+        categories = list
+    }
 
     inner class CategoryViewHolder(private val binding: ItemHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -35,4 +42,5 @@ class CategoryAdapter(private val categories: List<Category>) :
     override fun getItemCount(): Int {
         return categories.size
     }
+
 }
