@@ -18,16 +18,11 @@ class ProductRepository @Inject constructor(
     private val productDao: ProductsDao,
     private val cartProductsDao: CartProductsDao
 ) {
-
-    suspend fun insertProduct(product: ProductEntity) {
-        productDao.insertProduct(product)
-    }
-
     suspend fun insertProducts(product: List<ProductEntity>) {
         productDao.insertAll(product)
     }
 
-    suspend fun insertProductIncCart(product: CartProductEntity) {
+    suspend fun insertProductInCart(product: CartProductEntity) {
         cartProductsDao.insertProduct(product)
     }
 

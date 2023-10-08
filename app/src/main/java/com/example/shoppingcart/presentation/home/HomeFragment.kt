@@ -24,6 +24,7 @@ import com.example.shoppingcart.util.setSafeOnClickListener
 import com.example.shoppingcart.util.toProductsResponse
 import com.example.shoppingcart.util.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -46,7 +47,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
         dialog = Dialog(requireContext())
 
         dialog.setContentView(dialogBinding.root)
-        viewModel.getAllProducts()
         categoryFilterAdapter = CategoryFilterAdapter(categoryClicked = { category ->
             dialog.dismiss()
             viewModel.getProductsByCategory(category.id)
@@ -66,7 +66,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
     private fun initObservers() {
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.productsStateFlow.collect {
+            viewModel.productsStateFlow.collectLatest {
                 categoryAdapter.submitList(it?.categories ?: emptyList())
             }
         }
@@ -114,6 +114,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
 
     override fun unFavoriteProduct(product: Product) {
         viewModel.updateProduct(product)
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 }
 

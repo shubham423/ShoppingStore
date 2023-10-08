@@ -43,12 +43,14 @@ class HomeViewModel @Inject constructor(
                 repository.insertProducts(productsList)
                 datastoreRepository.syncProduct(true)
             }
+
+            getAllProducts()
         }
     }
 
     fun addProductToCart(product: ProductEntity) {
         viewModelScope.launch {
-            repository.insertProduct(product)
+
         }
     }
 
@@ -60,14 +62,6 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    fun addProduct(product: ProductEntity) {
-        viewModelScope.launch {
-            repository.insertProduct(product)
-        }
-
-    }
-
-
     fun isProductInFavorite(product: ProductEntity): Boolean {
         return repository.isProductInFavorites(product) > 0
     }
@@ -78,7 +72,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getAllProducts() {
+    private fun getAllProducts() {
         viewModelScope.launch {
             repository.getAllProducts().collect {
                 _productsStateFlow.emit(it.toProductsResponse())

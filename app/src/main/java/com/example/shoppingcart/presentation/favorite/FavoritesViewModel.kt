@@ -31,14 +31,6 @@ class FavoritesViewModel @Inject constructor(private val repository: ProductRepo
         getFavoriteProducts()
     }
 
-    fun addFavoriteProduct(productEntity: ProductEntity) {
-        viewModelScope.launch {
-            repository.insertProduct(productEntity)
-        }
-
-    }
-
-
     fun isProductInFavorite(productEntity: ProductEntity) {
         viewModelScope.launch {
             isProductInFavorite = repository.isProductInFavorites(productEntity) > 0
