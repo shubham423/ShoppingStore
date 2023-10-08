@@ -21,7 +21,6 @@ import com.example.shoppingcart.presentation.CategoryAdapter
 import com.example.shoppingcart.presentation.CategoryFilterAdapter
 import com.example.shoppingcart.util.gone
 import com.example.shoppingcart.util.setSafeOnClickListener
-import com.example.shoppingcart.util.toProductsResponse
 import com.example.shoppingcart.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -56,9 +55,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
         categoryAdapter = CategoryAdapter(this, fadeOutAnimation)
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvProducts.adapter = categoryAdapter
-        viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
-            categoryAdapter.submitList(categories)
-        }
         initClickListeners()
         initObservers()
     }
