@@ -16,12 +16,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_arrow_left"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_favorite"
@@ -32,11 +32,11 @@
                 android:id="@+id/tv_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/favorite"
+                android:layout_marginTop="32dp"
+                android:text="@string/cart"
                 android:textColor="@color/black"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
         android:id="@+id/rv_cart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,7 @@
         android:id="@+id/tv_cart_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cart is Empty"
+        android:text="@string/cart_is_empty"
         android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold"

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.shoppingcart.databinding.FragmentFavoritesBinding
 import com.example.shoppingcart.presentation.BaseFragment
 import com.example.shoppingcart.util.gone
@@ -26,11 +27,18 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        favoriteProductsAdapter = FavoriteProductsAdapter(removeFromFavorite = {product->
-            viewModel.updateProduct(product =product)
+        favoriteProductsAdapter = FavoriteProductsAdapter(removeFromFavorite = { product ->
+            viewModel.updateProduct(product = product)
         })
         binding.rvFavorites.adapter = favoriteProductsAdapter
         initObservers()
+        initClickListeners()
+    }
+
+    private fun initClickListeners() {
+        binding.ivBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun initObservers() {
