@@ -9,10 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.shoppingcart.databinding.FragmentFavoritesBinding
 import com.example.shoppingcart.presentation.BaseFragment
 import com.example.shoppingcart.presentation.home.FavoriteProductsAdapter
-import com.example.shoppingcart.util.toProduct
-import com.example.shoppingcart.util.toProductEntity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

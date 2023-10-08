@@ -4,12 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shoppingcart.data.local.entities.CartProductEntity
 import com.example.shoppingcart.data.local.entities.ProductEntity
 import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.data.models.ProductsResponse
-import com.example.shoppingcart.data.repository.ProductRepository
+import com.example.shoppingcart.data.repository.ProductRepositoryImpl
 import com.example.shoppingcart.data.repository.SyncDatastoreRepository
 import com.example.shoppingcart.util.toProductEntity
 import com.example.shoppingcart.util.toProductsResponse
@@ -20,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: ProductRepository,
+    private val repository: ProductRepositoryImpl,
     private val datastoreRepository: SyncDatastoreRepository
 ) : ViewModel() {
 
@@ -41,30 +40,6 @@ class HomeViewModel @Inject constructor(
             }
 
             getAllProducts()
-        }
-    }
-
-    fun addProductToCart(product: ProductEntity) {
-        viewModelScope.launch {
-
-        }
-    }
-
-    fun removeProductFromCart(product: CartProductEntity) {
-        viewModelScope.launch {
-            repository.removeProductFromCart(product)
-        }
-
-
-    }
-
-    fun isProductInFavorite(product: ProductEntity): Boolean {
-        return repository.isProductInFavorites(product) > 0
-    }
-
-    fun removeProduct(product: ProductEntity) {
-        viewModelScope.launch {
-            repository.removeProduct(product)
         }
     }
 

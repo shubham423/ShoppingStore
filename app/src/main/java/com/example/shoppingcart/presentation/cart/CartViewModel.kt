@@ -1,4 +1,4 @@
-package com.example.shoppingcart.presentation.favorite
+package com.example.shoppingcart.presentation.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritesViewModel @Inject constructor(private val repository: ProductRepositoryImpl) :
+class CartViewModel @Inject constructor(private val repository: ProductRepositoryImpl) :
     ViewModel() {
 
     private val _favoriteProductsFlow: MutableStateFlow<List<Product>> =

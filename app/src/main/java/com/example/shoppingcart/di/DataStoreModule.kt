@@ -25,9 +25,4 @@ object DataStoreModule {
         PreferenceDataStoreFactory.create(produceFile = {
             appContext.preferencesDataStoreFile(PREFERENCES_STORE_NAME)
         })
-
-    @Provides
-    @Singleton
-    fun provideAuthTokenStore(dataStore: DataStore<Preferences>): SyncDatastoreRepository =
-        SyncDatastoreRepositoryImpl(dataStore)
 }

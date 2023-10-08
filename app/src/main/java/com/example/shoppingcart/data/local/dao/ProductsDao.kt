@@ -26,9 +26,6 @@ interface ProductsDao {
     @Query("SELECT * FROM products")
     fun getAllProducts(): Flow<List<ProductEntity>>
 
-    @Query("SELECT COUNT(*) FROM products WHERE id = :productId")
-    fun isProductFavorite(productId: Int): Int
-
     @Query("SELECT * FROM products WHERE categoryId = :categoryId")
     fun getProductsByCategoryId(categoryId: Int): Flow<List<ProductEntity>>
 
