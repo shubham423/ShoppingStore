@@ -16,7 +16,7 @@ class FavoriteProductsAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.tvProductName.text = product.name
-            binding.tvProductPrice.text=product.price.toString()
+            binding.tvProductPrice.text="₹${product.price.toString()}"
             binding.ivProduct.load(product.icon)
         }
     }
