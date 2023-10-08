@@ -1,8 +1,8 @@
 package com.example.shoppingcart.data.repository
 
 import android.content.Context
-import com.example.shoppingcart.data.local.CartProductEntity
-import com.example.shoppingcart.data.local.ProductEntity
+import com.example.shoppingcart.data.local.entities.CartProductEntity
+import com.example.shoppingcart.data.local.entities.ProductEntity
 import com.example.shoppingcart.data.local.dao.ProductsDao
 import com.example.shoppingcart.data.local.dao.CartProductsDao
 import com.example.shoppingcart.data.models.ProductsResponse

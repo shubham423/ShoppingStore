@@ -9,15 +9,20 @@ import coil.load
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.ItemFavoriteBinding
 
-class FavoriteProductsAdapter :
-    ListAdapter<Product, FavoriteProductsAdapter.FavoritesProductsViewHolder>(CategoryFilterDiffCallback()) {
+class FavoriteProductsAdapter(val removeFromFavorite: (product: Product) -> Unit) :
+    ListAdapter<Product, FavoriteProductsAdapter.FavoritesProductsViewHolder>(
+        CategoryFilterDiffCallback()
+    ) {
 
     inner class FavoritesProductsViewHolder(private val binding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.tvProductName.text = product.name
-            binding.tvProductPrice.text="₹${product.price.toString()}"
+            binding.tvProductPrice.text = "₹${product.price.toString()}"
             binding.ivProduct.load(product.icon)
+            binding.ivFavoriteFilled.setOnClickListener {
+                removeFromFavorite.invoke(product.copy(isFavorite = false))
+            }
         }
     }
 

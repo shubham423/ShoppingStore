@@ -1,6 +1,6 @@
 package com.example.shoppingcart.util
 
-import com.example.shoppingcart.data.local.ProductEntity
+import com.example.shoppingcart.data.local.entities.ProductEntity
 import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.data.models.ProductsResponse

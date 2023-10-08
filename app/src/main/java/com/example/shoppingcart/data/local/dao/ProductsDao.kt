@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.shoppingcart.data.local.ProductEntity
+import com.example.shoppingcart.data.local.entities.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

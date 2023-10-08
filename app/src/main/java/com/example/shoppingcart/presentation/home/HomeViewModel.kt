@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shoppingcart.data.local.CartProductEntity
-import com.example.shoppingcart.data.local.ProductEntity
+import com.example.shoppingcart.data.local.entities.CartProductEntity
+import com.example.shoppingcart.data.local.entities.ProductEntity
 import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.data.models.ProductsResponse
@@ -15,10 +15,6 @@ import com.example.shoppingcart.util.toProductEntity
 import com.example.shoppingcart.util.toProductsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
