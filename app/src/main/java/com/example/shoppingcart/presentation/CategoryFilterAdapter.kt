@@ -10,7 +10,7 @@ import com.example.shoppingcart.databinding.ItemCategoryFilterBinding
 import com.example.shoppingcart.util.setSafeOnClickListener
 
 
-class CategoryFilterAdapter(val caterClicked: (category: Category) -> Unit) :
+class CategoryFilterAdapter(val categoryClicked: (category: Category) -> Unit) :
     ListAdapter<Category, CategoryFilterAdapter.CategoryFilterViewHolder>(CategoryFilterDiffCallback()) {
 
     inner class CategoryFilterViewHolder(private val binding: ItemCategoryFilterBinding) :
@@ -18,7 +18,7 @@ class CategoryFilterAdapter(val caterClicked: (category: Category) -> Unit) :
         fun bind(category: Category) {
             binding.tvCategory.text = category.name
             binding.tvCategory.setSafeOnClickListener {
-                caterClicked.invoke(category)
+                categoryClicked.invoke(category)
             }
         }
     }

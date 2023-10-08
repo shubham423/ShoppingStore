@@ -46,7 +46,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
         dialog = Dialog(requireContext())
 
         dialog.setContentView(dialogBinding.root)
-        categoryFilterAdapter = CategoryFilterAdapter(caterClicked = { category ->
+        viewModel.getAllProducts()
+        categoryFilterAdapter = CategoryFilterAdapter(categoryClicked = { category ->
             dialog.dismiss()
             viewModel.getProductsByCategory(category.id)
         })
@@ -108,11 +109,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
     }
 
     override fun favoriteProduct(product: Product) {
-        viewModel.updateProduct(product.copy(isFavorite = true))
+        viewModel.updateProduct(product)
     }
 
     override fun unFavoriteProduct(product: Product) {
-        viewModel.updateProduct(product.copy(isFavorite = false))
+        viewModel.updateProduct(product)
     }
 }
 

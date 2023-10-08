@@ -18,6 +18,18 @@ fun Product.toProductEntity(): ProductEntity {
     )
 }
 
+fun Product.toProductEntity(categoryId: Int, categoryName: String): ProductEntity {
+    return ProductEntity(
+        id = this.id,
+        icon = this.icon,
+        name = this.name,
+        price = this.price,
+        categoryName = categoryName,
+        categoryId = categoryId,
+        isFavorite = this.isFavorite,
+    )
+}
+
 fun ProductEntity.toProduct(): Product {
     return Product(
         id = this.id,

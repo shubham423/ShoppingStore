@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
                 val productsList = arrayListOf<ProductEntity>()
                 repository.getProductsResponse()?.categories?.forEach { category ->
                     productsList.addAll(category.items.map {
-                        it.toProductEntity()
+                        it.toProductEntity(category.id, category.name)
                     })
                 }
                 repository.insertProducts(productsList)
@@ -97,7 +97,6 @@ class HomeViewModel @Inject constructor(
     fun updateProduct(product: Product) {
         viewModelScope.launch {
             repository.updateProduct(product.toProductEntity())
-            getAllProducts()
         }
     }
 

@@ -27,11 +27,11 @@ class ProductAdapter(val productsCallback: ProductsCallback,val fadeOutAnimation
             }
             binding.ivFavorite.setOnClickListener {
                 if (product.isFavorite) {
-                    productsCallback.unFavoriteProduct(product)
+                    productsCallback.unFavoriteProduct(product.copy(isFavorite = false))
                     binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
 //                    binding.ivFavorite.startAnimation(fadeOutAnimation)
                 } else {
-                    productsCallback.favoriteProduct(product)
+                    productsCallback.favoriteProduct(product.copy(isFavorite = true))
                     binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
 //                    binding.ivFavorite.startAnimation(fadeOutAnimation)
                 }
