@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shoppingcart.data.local.FavoriteProductEntity
+import com.example.shoppingcart.data.local.CartProductEntity
 import com.example.shoppingcart.data.local.ProductEntity
 import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.data.repository.ProductRepository
@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
 
     }
 
-    fun addFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
+    fun addFavoriteProduct(favoriteProduct: CartProductEntity) {
         viewModelScope.launch {
             repository.insertFavoriteProduct(favoriteProduct)
         }
@@ -43,18 +43,18 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
     }
 
 
-   suspend fun isProductInFavorite(favoriteProduct: FavoriteProductEntity): Boolean {
+    fun isProductInFavorite(favoriteProduct: CartProductEntity): Boolean {
            return repository.isProductInFavorites(favoriteProduct) > 0
     }
 
-    fun removeFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
+    fun removeFavoriteProduct(favoriteProduct: CartProductEntity) {
         viewModelScope.launch {
             repository.removeFavoriteProduct(favoriteProduct)
         }
     }
 
 
-    val favoriteProducts: StateFlow<List<FavoriteProductEntity>> =
+    val favoriteProducts: StateFlow<List<CartProductEntity>> =
         repository.getAllFavoriteProducts()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 

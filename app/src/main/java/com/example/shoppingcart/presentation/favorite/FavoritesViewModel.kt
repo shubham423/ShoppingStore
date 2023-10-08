@@ -2,11 +2,10 @@ package com.example.shoppingcart.presentation.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shoppingcart.data.local.FavoriteProductEntity
+import com.example.shoppingcart.data.local.CartProductEntity
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.data.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +22,7 @@ class FavoritesViewModel @Inject constructor(private val repository: ProductRepo
 
     var isProductInFavorite: Boolean = false
 
-    fun addFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
+    fun addFavoriteProduct(favoriteProduct: CartProductEntity) {
         viewModelScope.launch {
             repository.insertFavoriteProduct(favoriteProduct)
         }
@@ -31,21 +30,21 @@ class FavoritesViewModel @Inject constructor(private val repository: ProductRepo
     }
 
 
-    fun isProductInFavorite(favoriteProduct: FavoriteProductEntity) {
+    fun isProductInFavorite(favoriteProduct: CartProductEntity) {
         viewModelScope.launch {
             isProductInFavorite = repository.isProductInFavorites(favoriteProduct) > 0
         }
 
     }
 
-    fun removeFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
+    fun removeFavoriteProduct(favoriteProduct: CartProductEntity) {
         viewModelScope.launch {
             repository.removeFavoriteProduct(favoriteProduct)
         }
     }
 
 
-    val favoriteProducts: StateFlow<List<FavoriteProductEntity>> =
+    val favoriteProducts: StateFlow<List<CartProductEntity>> =
         repository.getAllFavoriteProducts()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 }

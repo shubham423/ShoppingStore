@@ -6,8 +6,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppingcart.R
@@ -18,18 +19,16 @@ import com.example.shoppingcart.presentation.CategoryAdapter
 import com.example.shoppingcart.presentation.CategoryFilterAdapter
 import com.example.shoppingcart.util.gone
 import com.example.shoppingcart.util.setSafeOnClickListener
-import com.example.shoppingcart.util.toFavoriteProductEntity
 import com.example.shoppingcart.util.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var dialogBinding:DialogCatogoriesBinding
+    private lateinit var dialogBinding: DialogCatogoriesBinding
     private lateinit var dialog: Dialog
-    private lateinit var categoryFilterAdapter:CategoryFilterAdapter
-    private lateinit var categoryAdapter:CategoryAdapter
+    private lateinit var categoryFilterAdapter: CategoryFilterAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
     override fun inflateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -40,32 +39,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dialogBinding= DialogCatogoriesBinding.inflate(layoutInflater)
-        dialog= Dialog(requireContext())
+        dialogBinding = DialogCatogoriesBinding.inflate(layoutInflater)
+        dialog = Dialog(requireContext())
 
         dialog.setContentView(dialogBinding.root)
-        categoryFilterAdapter = CategoryFilterAdapter(caterClicked = {category->
+        categoryFilterAdapter = CategoryFilterAdapter(caterClicked = { category ->
             dialog.dismiss()
             viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
-                val filteredList=categories.filter {
-                    it.name==category.name
+                val filteredList = categories.filter {
+                    it.name == category.name
                 }
                 categoryAdapter.submitList(filteredList)
             }
         })
-        categoryAdapter = CategoryAdapter(onFavoriteClicked = {product ->
-            lifecycleScope.launch {
-                if (viewModel.isProductInFavorite(product.toFavoriteProductEntity())){
-                    viewModel.removeFavoriteProduct(product.toFavoriteProductEntity())
-                }else{
-                    viewModel.addFavoriteProduct(product.toFavoriteProductEntity())
-                }
-            }
-        })
+        val fadeOutAnimation: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.heart_anim)
+        categoryAdapter = CategoryAdapter(viewModel = viewModel,fadeOutAnimation)
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvProducts.adapter = categoryAdapter
         viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
-           categoryAdapter.submitList(categories)
+            categoryAdapter.submitList(categories)
         }
 
         initClickListeners()

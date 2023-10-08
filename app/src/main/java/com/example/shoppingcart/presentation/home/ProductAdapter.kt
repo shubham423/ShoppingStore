@@ -2,14 +2,17 @@ package com.example.shoppingcart.presentation.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.shoppingcart.R
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.ItemProductBinding
+import com.example.shoppingcart.util.toFavoriteProductEntity
 
-class ProductAdapter(val onFavoriteClicked: (product: Product) -> Unit) :
+class ProductAdapter(val viewModel: HomeViewModel, val fadeOutAnimation: Animation) :
     ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     inner class ProductViewHolder(private val binding: ItemProductBinding) :
@@ -18,8 +21,21 @@ class ProductAdapter(val onFavoriteClicked: (product: Product) -> Unit) :
             binding.tvProductName.text = product.name
             binding.tvPrice.text = "$${product.price}"
             binding.ivProduct.load(product.icon)
+            if (viewModel.isProductInFavorite(product.toFavoriteProductEntity())) {
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
+            } else {
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
+            }
             binding.ivFavorite.setOnClickListener {
-                onFavoriteClicked.invoke(product)
+                if (viewModel.isProductInFavorite(product.toFavoriteProductEntity())) {
+                    viewModel.removeFavoriteProduct(product.toFavoriteProductEntity())
+                    binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
+                    binding.ivFavorite.startAnimation(fadeOutAnimation)
+                } else {
+                    viewModel.addFavoriteProduct(product.toFavoriteProductEntity())
+                    binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
+                    binding.ivFavorite.startAnimation(fadeOutAnimation)
+                }
             }
         }
     }

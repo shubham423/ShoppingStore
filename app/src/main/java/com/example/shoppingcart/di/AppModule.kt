@@ -3,7 +3,7 @@ package com.example.shoppingcart.di
 import android.content.Context
 import androidx.room.Room
 import com.example.shoppingcart.data.local.AppDatabase
-import com.example.shoppingcart.data.local.dao.FavoriteProductDao
+import com.example.shoppingcart.data.local.dao.ProductsDao
 import com.example.shoppingcart.data.local.dao.CartProductsDao
 import dagger.Module
 import dagger.Provides
@@ -31,7 +31,7 @@ object AppModule {
     }
 
     @Provides
-    fun provideFavoriteProductDao(database: AppDatabase): FavoriteProductDao {
+    fun provideFavoriteProductDao(database: AppDatabase): ProductsDao {
         return database.favoriteProductDao()
     }
 }

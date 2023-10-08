@@ -1,9 +1,9 @@
 package com.example.shoppingcart.data.repository
 
 import android.content.Context
-import com.example.shoppingcart.data.local.FavoriteProductEntity
+import com.example.shoppingcart.data.local.CartProductEntity
 import com.example.shoppingcart.data.local.ProductEntity
-import com.example.shoppingcart.data.local.dao.FavoriteProductDao
+import com.example.shoppingcart.data.local.dao.ProductsDao
 import com.example.shoppingcart.data.local.dao.CartProductsDao
 import com.example.shoppingcart.data.models.ProductsResponse
 import com.google.gson.Gson
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class ProductRepository @Inject constructor(
     @ApplicationContext val context: Context,
     private val productDao: CartProductsDao,
-    private val favoriteProductDao: FavoriteProductDao
+    private val favoriteProductDao: ProductsDao
 ) {
 
     suspend fun insertProduct(product: ProductEntity) {
@@ -27,11 +27,11 @@ class ProductRepository @Inject constructor(
         productDao.deleteProduct(product)
     }
 
-    suspend fun insertFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
+    suspend fun insertFavoriteProduct(favoriteProduct: CartProductEntity) {
         favoriteProductDao.insertFavoriteProduct(favoriteProduct)
     }
 
-    suspend fun removeFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
+    suspend fun removeFavoriteProduct(favoriteProduct: CartProductEntity) {
         favoriteProductDao.deleteFavoriteProduct(favoriteProduct)
     }
 
@@ -39,11 +39,11 @@ class ProductRepository @Inject constructor(
         return productDao.getAllProducts()
     }
 
-    fun getAllFavoriteProducts(): Flow<List<FavoriteProductEntity>> {
+    fun getAllFavoriteProducts(): Flow<List<CartProductEntity>> {
         return favoriteProductDao.getAllFavoriteProducts()
     }
 
-    suspend fun isProductInFavorites(productEntity: FavoriteProductEntity): Int {
+     fun isProductInFavorites(productEntity: CartProductEntity): Int {
         return favoriteProductDao.isProductInFavorites(productEntity.id)
     }
 
