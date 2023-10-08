@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -115,6 +116,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
 
     override fun addProductToCart(product: Product) {
         viewModel.addProductToCart(product)
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.added_to_cart_successfully),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onResume() {
