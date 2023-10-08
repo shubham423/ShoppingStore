@@ -42,13 +42,13 @@ class ProductRepositoryImpl @Inject constructor(
         return productDao.getFavoriteProducts()
     }
 
-    fun getProductsResponse(): ProductsResponse? {
+    override fun getProductsResponse(): ProductsResponse? {
         val jsonFileString = getJsonDataFromAsset(context, "shopping.json")
         val type = object : TypeToken<ProductsResponse>() {}.type
         return Gson().fromJson(jsonFileString, type)
     }
 
-    private fun getJsonDataFromAsset(
+    override fun getJsonDataFromAsset(
         context: Context, fileName: String
     ): String? {
         val jsonString: String

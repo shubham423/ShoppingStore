@@ -1,5 +1,6 @@
 package com.example.shoppingcart.util
 
+import com.example.shoppingcart.data.local.entities.CartProductEntity
 import com.example.shoppingcart.data.local.entities.ProductEntity
 import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.data.models.Product
@@ -15,6 +16,16 @@ fun Product.toProductEntity(): ProductEntity {
         categoryName = this.name,
         categoryId = this.categoryId,
         isFavorite = this.isFavorite
+    )
+}
+
+fun Product.toCartProductEntity(): CartProductEntity {
+    return CartProductEntity(
+        id = this.id,
+        icon = this.icon,
+        name = this.name,
+        price = this.price,
+        quantity = this.quantity
     )
 }
 
@@ -38,6 +49,17 @@ fun ProductEntity.toProduct(): Product {
         price = this.price,
         categoryId = this.categoryId,
         isFavorite = this.isFavorite
+    )
+}
+
+fun CartProductEntity.toProduct(): Product {
+    return Product(
+        id = this.id,
+        icon = this.icon,
+        name = this.name,
+        price = this.price,
+        quantity = this.quantity,
+        categoryId = this.id
     )
 }
 

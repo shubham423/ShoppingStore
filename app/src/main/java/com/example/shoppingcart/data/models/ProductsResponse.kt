@@ -4,7 +4,7 @@ package com.example.shoppingcart.data.models
 data class ProductsResponse(
     val categories: List<Category>,
 
-)
+    )
 
 data class Category(
     val id: Int,
@@ -17,6 +17,7 @@ data class Product(
     val id: Int,
     val name: String,
     val price: Double,
-    val isFavorite:Boolean=false,
-    val categoryId:Int
+    val isFavorite: Boolean = false,
+    val categoryId: Int,
+    val quantity: Int = 3
 )

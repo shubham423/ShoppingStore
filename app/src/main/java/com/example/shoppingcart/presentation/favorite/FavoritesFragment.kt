@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.shoppingcart.databinding.FragmentFavoritesBinding
 import com.example.shoppingcart.presentation.BaseFragment
-import com.example.shoppingcart.presentation.home.FavoriteProductsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

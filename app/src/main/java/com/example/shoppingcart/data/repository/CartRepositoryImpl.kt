@@ -15,10 +15,11 @@ class CartRepositoryImpl @Inject constructor(private val dao: CartProductsDao) :
     }
 
     override suspend fun updateCartProduct(cartProductEntity: CartProductEntity) {
-      dao.updateCartProduct(cartProductEntity)
+        dao.updateCartProduct(cartProductEntity)
     }
 
     override fun getAllCartProducts(): Flow<List<CartProductEntity>> {
-        TODO("Not yet implemented")
+        return dao.getAllProducts()
     }
+
 }

@@ -17,8 +17,6 @@ import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.DialogCatogoriesBinding
 import com.example.shoppingcart.databinding.FragmentHomeBinding
 import com.example.shoppingcart.presentation.BaseFragment
-import com.example.shoppingcart.presentation.CategoryAdapter
-import com.example.shoppingcart.presentation.CategoryFilterAdapter
 import com.example.shoppingcart.util.gone
 import com.example.shoppingcart.util.setSafeOnClickListener
 import com.example.shoppingcart.util.visible

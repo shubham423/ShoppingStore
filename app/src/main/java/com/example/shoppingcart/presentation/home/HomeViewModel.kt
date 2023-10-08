@@ -9,6 +9,7 @@ import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.data.models.ProductsResponse
 import com.example.shoppingcart.data.repository.ProductRepositoryImpl
+import com.example.shoppingcart.data.repository.ProductsRepository
 import com.example.shoppingcart.data.repository.SyncDatastoreRepository
 import com.example.shoppingcart.util.toProductEntity
 import com.example.shoppingcart.util.toProductsResponse
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: ProductRepositoryImpl,
+    private val repository: ProductsRepository,
     private val datastoreRepository: SyncDatastoreRepository
 ) : ViewModel() {
 

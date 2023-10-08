@@ -1,4 +1,4 @@
-package com.example.shoppingcart.presentation
+package com.example.shoppingcart.presentation.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,9 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.databinding.ItemCategoryBinding
-import com.example.shoppingcart.presentation.home.HomeViewModel
-import com.example.shoppingcart.presentation.home.ProductAdapter
-import com.example.shoppingcart.presentation.home.ProductsCallback
 import com.example.shoppingcart.util.gone
 import com.example.shoppingcart.util.visible
 
