@@ -18,7 +18,7 @@ class ProductAdapter(val productsCallback: ProductsCallback,val fadeOutAnimation
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.tvProductName.text = product.name
-            binding.tvPrice.text = "$${product.price}"
+            binding.tvPrice.text = "₹${product.price}"
             binding.ivProduct.load(product.icon)
             if (product.isFavorite) {
                 binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
@@ -35,6 +35,10 @@ class ProductAdapter(val productsCallback: ProductsCallback,val fadeOutAnimation
                     binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
 //                    binding.ivFavorite.startAnimation(fadeOutAnimation)
                 }
+            }
+
+            binding.btnAddProduct.setOnClickListener {
+                productsCallback.addProductToCart(product)
             }
         }
     }
@@ -63,5 +67,6 @@ class ProductAdapter(val productsCallback: ProductsCallback,val fadeOutAnimation
 interface ProductsCallback{
     fun favoriteProduct(product: Product)
     fun unFavoriteProduct(product: Product)
+    fun addProductToCart(product: Product)
 }
 

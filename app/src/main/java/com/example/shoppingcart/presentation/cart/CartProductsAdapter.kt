@@ -20,6 +20,7 @@ class CartProductsAdapter(val removeFromFavorite: (product: Product) -> Unit) :
             binding.tvProductName.text = product.name
             binding.tvProductPrice.text = "₹${product.price.toString()}"
             binding.ivProduct.load(product.icon)
+            binding.tvTotalPrice.text = "₹${(product.price * product.quantity)}"
         }
     }
 

@@ -81,6 +81,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
         binding.ivFavorite.setSafeOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_favoritesFragment)
         }
+        binding.ivCart.setSafeOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
+        }
     }
 
     private fun showCustomDialog() {
@@ -108,6 +111,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
 
     override fun unFavoriteProduct(product: Product) {
         viewModel.updateProduct(product)
+    }
+
+    override fun addProductToCart(product: Product) {
+        viewModel.addProductToCart(product)
     }
 
     override fun onResume() {
