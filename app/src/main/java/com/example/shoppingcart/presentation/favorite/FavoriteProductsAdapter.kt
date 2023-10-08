@@ -9,7 +9,7 @@ import coil.load
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.ItemFavoriteBinding
 
-class FavoriteProductsAdapter(val removeFromFavorite: (product: Product) -> Unit) :
+class FavoriteProductsAdapter(val callback: FavoriteAdapterCallback) :
     ListAdapter<Product, FavoriteProductsAdapter.FavoritesProductsViewHolder>(
         CategoryDiffCallback()
     ) {
@@ -21,7 +21,10 @@ class FavoriteProductsAdapter(val removeFromFavorite: (product: Product) -> Unit
             binding.tvProductPrice.text = "₹${product.price.toString()}"
             binding.ivProduct.load(product.icon)
             binding.ivFavoriteFilled.setOnClickListener {
-                removeFromFavorite.invoke(product.copy(isFavorite = false))
+                callback.removeFromFavorite(product.copy(isFavorite = false))
+            }
+            binding.btnAdd.setOnClickListener {
+                callback.addProductToCart(product)
             }
         }
     }
@@ -45,4 +48,9 @@ class CategoryDiffCallback : DiffUtil.ItemCallback<Product>() {
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem == newItem
     }
+}
+
+interface FavoriteAdapterCallback {
+    fun removeFromFavorite(product: Product)
+    fun addProductToCart(product: Product)
 }
