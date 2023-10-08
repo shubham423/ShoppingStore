@@ -105,7 +105,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val layoutParams = dialog.window?.attributes
-        layoutParams?.y = 200
+        layoutParams?.y = 250
         dialog.window?.attributes = layoutParams
         dialog.window?.setGravity(Gravity.BOTTOM)
         dialog.window?.attributes = layoutParams
