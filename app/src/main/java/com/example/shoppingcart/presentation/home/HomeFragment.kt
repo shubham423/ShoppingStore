@@ -1,11 +1,14 @@
 package com.example.shoppingcart.presentation.home
 
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -74,8 +77,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
             binding.btnCloseDialog.visible()
         }
         binding.btnCloseDialog.setSafeOnClickListener {
-            binding.btnCloseDialog.gone()
-            binding.btnCategories.visible()
             dialog.dismiss()
         }
 
@@ -88,19 +89,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
     }
 
     private fun showCustomDialog() {
-
         val layoutManager = LinearLayoutManager(requireContext())
         dialogBinding.rvCategories.layoutManager = layoutManager
         dialogBinding.rvCategories.adapter = categoryFilterAdapter
 
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
-//        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         val layoutParams = dialog.window?.attributes
         layoutParams?.y = 200
         dialog.window?.attributes = layoutParams
         dialog.window?.setGravity(Gravity.BOTTOM)
+        dialog.window?.attributes = layoutParams
 
+        dialog.show()
+
+        dialog.setOnDismissListener {
+            binding.btnCloseDialog.gone()
+            binding.btnCategories.visible()
+        }
         viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
             categoryFilterAdapter.submitList(categories)
         }
