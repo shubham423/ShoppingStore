@@ -11,7 +11,7 @@ import com.example.shoppingcart.databinding.ItemFavoriteBinding
 
 class FavoriteProductsAdapter(val removeFromFavorite: (product: Product) -> Unit) :
     ListAdapter<Product, FavoriteProductsAdapter.FavoritesProductsViewHolder>(
-        CategoryFilterDiffCallback()
+        CategoryDiffCallback()
     ) {
 
     inner class FavoritesProductsViewHolder(private val binding: ItemFavoriteBinding) :
@@ -37,7 +37,7 @@ class FavoriteProductsAdapter(val removeFromFavorite: (product: Product) -> Unit
     }
 }
 
-class CategoryFilterDiffCallback : DiffUtil.ItemCallback<Product>() {
+class CategoryDiffCallback : DiffUtil.ItemCallback<Product>() {
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem.id == newItem.id
     }
