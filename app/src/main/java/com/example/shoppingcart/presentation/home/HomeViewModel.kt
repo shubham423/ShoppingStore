@@ -9,7 +9,6 @@ import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.data.models.ProductsResponse
 import com.example.shoppingcart.data.repository.CartRepository
-import com.example.shoppingcart.data.repository.ProductRepositoryImpl
 import com.example.shoppingcart.data.repository.ProductsRepository
 import com.example.shoppingcart.data.repository.SyncDatastoreRepository
 import com.example.shoppingcart.util.toCartProductEntity

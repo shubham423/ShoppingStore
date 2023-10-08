@@ -19,5 +19,6 @@ data class Product(
     val price: Double,
     val isFavorite: Boolean = false,
     val categoryId: Int,
-    val quantity: Int = 1
+    val quantity: Int = 1,
+    val categoryName:String
 )

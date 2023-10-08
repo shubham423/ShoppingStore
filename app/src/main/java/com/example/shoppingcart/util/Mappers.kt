@@ -48,7 +48,8 @@ fun ProductEntity.toProduct(): Product {
         name = this.name,
         price = this.price,
         categoryId = this.categoryId,
-        isFavorite = this.isFavorite
+        isFavorite = this.isFavorite,
+        categoryName = this.categoryName
     )
 }
 
@@ -59,7 +60,8 @@ fun CartProductEntity.toProduct(): Product {
         name = this.name,
         price = this.price,
         quantity = this.quantity,
-        categoryId = this.id
+        categoryId = this.id,
+        categoryName = this.name
     )
 }
 
@@ -79,7 +81,8 @@ fun List<ProductEntity>.toProductsResponse(): ProductsResponse {
                     name = it.name,
                     price = it.price,
                     categoryId = it.categoryId,
-                    isFavorite = it.isFavorite
+                    isFavorite = it.isFavorite,
+                    categoryName = it.categoryName
                 )
             }
         )
