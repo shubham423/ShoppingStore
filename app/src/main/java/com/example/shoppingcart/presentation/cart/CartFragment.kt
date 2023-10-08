@@ -45,6 +45,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(),CartAdapterCallback {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.cartProductsFlow.collect {
                 if (it.isNotEmpty()) {
+                    binding.rvCart.visible()
                     binding.tvCartEmpty.gone()
                     binding.viewGroupCheckout.visible()
                     var price = 0
@@ -53,6 +54,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(),CartAdapterCallback {
                     binding.tvSubtotalValue.text = "₹${price}"
                     binding.tvTotalValue.text = "₹${price.minus(4)}"
                 } else {
+                    binding.rvCart.gone()
                     binding.viewGroupCheckout.gone()
                     binding.tvCartEmpty.visible()
                 }

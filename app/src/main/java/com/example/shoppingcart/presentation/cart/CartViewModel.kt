@@ -30,7 +30,6 @@ class CartViewModel @Inject constructor(private val repository: CartRepository) 
             } else {
                 repository.updateCartProduct(product.toCartProductEntity())
             }
-            getCartProducts()
         }
     }
 
