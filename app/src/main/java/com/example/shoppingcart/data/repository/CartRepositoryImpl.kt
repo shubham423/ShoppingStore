@@ -22,4 +22,8 @@ class CartRepositoryImpl @Inject constructor(private val dao: CartProductsDao) :
         return dao.getAllProducts()
     }
 
+    override fun getCartProductsCount(): Flow<Int> {
+        return dao.getCartProductsCount()
+    }
+
 }

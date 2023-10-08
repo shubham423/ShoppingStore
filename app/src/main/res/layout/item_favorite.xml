@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="16dp"
     android:elevation="16dp"
-    android:layout_margin="16dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:id="@+id/iv_product"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:padding="8dp"
+            android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -24,26 +25,31 @@
 
         <TextView
             android:id="@+id/tv_product_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            tools:text="Potato chips"
+            android:layout_marginEnd="16dp"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/iv_favorite_filled"
             app:layout_constraintStart_toEndOf="@+id/iv_product"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Potato chips" />
 
         <TextView
             android:id="@+id/tv_product_units"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp"
-            android:text="1 Unit"
+            android:text="@string/_1_unit"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_product" />
+            app:layout_constraintStart_toEndOf="@+id/iv_product"
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
 
         <TextView
             android:id="@+id/tv_product_price"
@@ -51,16 +57,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             tools:text="TextView"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_product_units"
             app:layout_constraintStart_toEndOf="@+id/tv_product_units"
             app:layout_constraintTop_toTopOf="@+id/tv_product_units" />
 
         <ImageView
             android:id="@+id/iv_favorite_filled"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
@@ -71,8 +77,8 @@
 
         <FrameLayout
             android:id="@+id/btn_add"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_square_orange"

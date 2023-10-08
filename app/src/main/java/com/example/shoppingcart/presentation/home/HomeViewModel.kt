@@ -29,6 +29,9 @@ class HomeViewModel @Inject constructor(
     private val _productsStateFlow: MutableStateFlow<ProductsResponse?> = MutableStateFlow(null)
     val productsStateFlow: MutableStateFlow<ProductsResponse?> = _productsStateFlow
 
+    private val _cartCountFlow: MutableStateFlow<Int> = MutableStateFlow(0)
+    val cartCountFlow: MutableStateFlow<Int> = _cartCountFlow
+
     init {
         viewModelScope.launch {
             if (!datastoreRepository.isProductSynced()) {
@@ -43,6 +46,7 @@ class HomeViewModel @Inject constructor(
             }
 
             getAllProducts()
+            getCartProductCount()
         }
     }
 
@@ -71,6 +75,14 @@ class HomeViewModel @Inject constructor(
     fun addProductToCart(product: Product) {
         viewModelScope.launch {
             cartRepository.addToCart(product.toCartProductEntity())
+        }
+    }
+
+    fun getCartProductCount() {
+        viewModelScope.launch {
+            cartRepository.getCartProductsCount().collect{
+                _cartCountFlow.emit(it)
+            }
         }
     }
 

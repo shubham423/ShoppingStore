@@ -8,4 +8,5 @@ interface CartRepository {
     suspend fun removeFromCart(cartProductEntity: CartProductEntity)
     suspend fun updateCartProduct(cartProductEntity: CartProductEntity)
     fun getAllCartProducts(): Flow<List<CartProductEntity>>
+    fun getCartProductsCount(): Flow<Int>
 }

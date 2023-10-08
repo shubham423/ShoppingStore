@@ -8,7 +8,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -66,6 +65,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.productsStateFlow.collectLatest {
                 categoryAdapter.submitList(it?.categories ?: emptyList())
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.cartCountFlow.collectLatest { count ->
+                if (count > 0) {
+                    binding.tvCartCount.visible()
+                    binding.tvCartCount.text = count.toString()
+                } else {
+                    binding.tvCartCount.gone()
+                }
             }
         }
     }
