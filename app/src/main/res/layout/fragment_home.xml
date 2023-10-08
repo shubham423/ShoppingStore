@@ -43,17 +43,17 @@
                 app:layout_constraintTop_toTopOf="@id/iv_menu" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/iv_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_favorite"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                app:layout_constraintEnd_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="@+id/imageView3" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_cart"
+                app:layout_constraintEnd_toStartOf="@+id/iv_cart"
+                app:layout_constraintTop_toTopOf="@+id/iv_cart" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/iv_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -110,7 +110,7 @@
         android:layout_height="40dp"
         android:layout_marginBottom="16dp"
         android:visibility="gone"
-        android:background="@drawable/rounded_square_button_background"
+        android:background="@drawable/bg_circle_orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

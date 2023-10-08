@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.shoppingcart.data.local.FavoriteProductEntity
 import com.example.shoppingcart.data.local.ProductEntity
 import com.example.shoppingcart.data.local.dao.FavoriteProductDao
-import com.example.shoppingcart.data.local.dao.ProductDao
+import com.example.shoppingcart.data.local.dao.CartProductsDao
 import com.example.shoppingcart.data.models.ProductsResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -15,9 +15,10 @@ import javax.inject.Inject
 
 class ProductRepository @Inject constructor(
     @ApplicationContext val context: Context,
-    private val productDao: ProductDao,
+    private val productDao: CartProductsDao,
     private val favoriteProductDao: FavoriteProductDao
 ) {
+
     suspend fun insertProduct(product: ProductEntity) {
         productDao.insertProduct(product)
     }
@@ -40,6 +41,10 @@ class ProductRepository @Inject constructor(
 
     fun getAllFavoriteProducts(): Flow<List<FavoriteProductEntity>> {
         return favoriteProductDao.getAllFavoriteProducts()
+    }
+
+    suspend fun isProductInFavorites(productEntity: FavoriteProductEntity): Int {
+        return favoriteProductDao.isProductInFavorites(productEntity.id)
     }
 
     fun getProductsResponse(): ProductsResponse? {

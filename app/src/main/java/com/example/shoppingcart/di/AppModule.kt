@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.shoppingcart.data.local.AppDatabase
 import com.example.shoppingcart.data.local.dao.FavoriteProductDao
-import com.example.shoppingcart.data.local.dao.ProductDao
+import com.example.shoppingcart.data.local.dao.CartProductsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +26,7 @@ object AppModule {
     }
 
     @Provides
-    fun provideProductDao(database: AppDatabase): ProductDao {
+    fun provideProductDao(database: AppDatabase): CartProductsDao {
         return database.productDao()
     }
 

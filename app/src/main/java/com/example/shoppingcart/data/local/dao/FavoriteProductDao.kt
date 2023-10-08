@@ -18,4 +18,7 @@ interface FavoriteProductDao {
 
     @Query("SELECT * FROM favorite_products")
     fun getAllFavoriteProducts(): Flow<List<FavoriteProductEntity>>
+
+    @Query("SELECT COUNT(*) FROM favorite_products WHERE id = :productId")
+    suspend fun isProductInFavorites(productId: Int): Int
 }

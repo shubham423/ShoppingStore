@@ -12,32 +12,55 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: ProductRepository) : ViewModel() {
-    suspend fun addProductToCart(product: ProductEntity) {
-        repository.insertProduct(product)
+
+    var isProductInFavorite: Boolean = false
+    fun addProductToCart(product: ProductEntity) {
+        viewModelScope.launch {
+            repository.insertProduct(product)
+        }
+
+
     }
 
-    suspend fun removeProductFromCart(product: ProductEntity) {
-        repository.removeProductFromCart(product)
+    fun removeProductFromCart(product: ProductEntity) {
+        viewModelScope.launch {
+            repository.removeProductFromCart(product)
+        }
+
+
     }
 
-    suspend fun addFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
-        repository.insertFavoriteProduct(favoriteProduct)
+    fun addFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
+        viewModelScope.launch {
+            repository.insertFavoriteProduct(favoriteProduct)
+        }
+
     }
 
-    suspend fun removeFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
-        repository.removeFavoriteProduct(favoriteProduct)
+
+   suspend fun isProductInFavorite(favoriteProduct: FavoriteProductEntity): Boolean {
+           return repository.isProductInFavorites(favoriteProduct) > 0
     }
 
-    val cartProducts: StateFlow<List<ProductEntity>> = repository.getAllCartProducts()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    fun removeFavoriteProduct(favoriteProduct: FavoriteProductEntity) {
+        viewModelScope.launch {
+            repository.removeFavoriteProduct(favoriteProduct)
+        }
+    }
+
 
     val favoriteProducts: StateFlow<List<FavoriteProductEntity>> =
         repository.getAllFavoriteProducts()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+
+    val cartProducts: StateFlow<List<ProductEntity>> = repository.getAllCartProducts()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+
 
 
     fun getCategories(): LiveData<List<Category>> {

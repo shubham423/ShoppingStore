@@ -1,16 +1,16 @@
 package com.example.shoppingcart.presentation.home
 
-import android.app.AlertDialog
 import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shoppingcart.R
 import com.example.shoppingcart.databinding.DialogCatogoriesBinding
 import com.example.shoppingcart.databinding.FragmentHomeBinding
 import com.example.shoppingcart.presentation.BaseFragment
@@ -18,8 +18,10 @@ import com.example.shoppingcart.presentation.CategoryAdapter
 import com.example.shoppingcart.presentation.CategoryFilterAdapter
 import com.example.shoppingcart.util.gone
 import com.example.shoppingcart.util.setSafeOnClickListener
+import com.example.shoppingcart.util.toFavoriteProductEntity
 import com.example.shoppingcart.util.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -51,7 +53,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 categoryAdapter.submitList(filteredList)
             }
         })
-        categoryAdapter = CategoryAdapter()
+        categoryAdapter = CategoryAdapter(onFavoriteClicked = {product ->
+            lifecycleScope.launch {
+                if (viewModel.isProductInFavorite(product.toFavoriteProductEntity())){
+                    viewModel.removeFavoriteProduct(product.toFavoriteProductEntity())
+                }else{
+                    viewModel.addFavoriteProduct(product.toFavoriteProductEntity())
+                }
+            }
+        })
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvProducts.adapter = categoryAdapter
         viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
@@ -71,6 +81,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             binding.btnCloseDialog.gone()
             binding.btnCategories.visible()
             dialog.dismiss()
+        }
+
+        binding.ivFavorite.setSafeOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_favoritesFragment)
         }
     }
 

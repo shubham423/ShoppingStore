@@ -9,7 +9,8 @@ import coil.load
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.ItemProductBinding
 
-class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
+class ProductAdapter(val onFavoriteClicked: (product: Product) -> Unit) :
+    ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     inner class ProductViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -17,6 +18,9 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(Pr
             binding.tvProductName.text = product.name
             binding.tvPrice.text = "$${product.price}"
             binding.ivProduct.load(product.icon)
+            binding.ivFavorite.setOnClickListener {
+                onFavoriteClicked.invoke(product)
+            }
         }
     }
 

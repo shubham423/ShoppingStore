@@ -9,7 +9,7 @@ import com.example.shoppingcart.data.local.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ProductDao {
+interface CartProductsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProduct(product: ProductEntity)
 
