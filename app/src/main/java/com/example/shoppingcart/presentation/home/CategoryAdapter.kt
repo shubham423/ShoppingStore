@@ -14,14 +14,14 @@ import com.example.shoppingcart.util.gone
 import com.example.shoppingcart.util.visible
 
 
-class CategoryAdapter(val productsCallback: ProductsCallback, val fadeOutAnimation: Animation) :
+class CategoryAdapter(val productsCallback: ProductsCallback, val heartAnimation: Animation) :
     ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
     inner class CategoryViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category) {
             binding.tvTitle.text = category.name
-            val productAdapter = ProductAdapter(productsCallback,fadeOutAnimation)
+            val productAdapter = ProductAdapter(productsCallback,heartAnimation)
             productAdapter.submitList(category.items)
             binding.productRecyclerView.layoutManager =
                 LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)

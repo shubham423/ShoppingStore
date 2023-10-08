@@ -11,7 +11,7 @@ import com.example.shoppingcart.R
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.ItemProductBinding
 
-class ProductAdapter(val productsCallback: ProductsCallback,val fadeOutAnimation: Animation) :
+class ProductAdapter(val productsCallback: ProductsCallback, val heartAnimation: Animation) :
     ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     inner class ProductViewHolder(private val binding: ItemProductBinding) :
@@ -29,11 +29,11 @@ class ProductAdapter(val productsCallback: ProductsCallback,val fadeOutAnimation
                 if (product.isFavorite) {
                     productsCallback.unFavoriteProduct(product.copy(isFavorite = false))
                     binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
-//                    binding.ivFavorite.startAnimation(fadeOutAnimation)
+                    binding.ivFavorite.startAnimation(heartAnimation)
                 } else {
                     productsCallback.favoriteProduct(product.copy(isFavorite = true))
                     binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
-//                    binding.ivFavorite.startAnimation(fadeOutAnimation)
+                    binding.ivFavorite.startAnimation(heartAnimation)
                 }
             }
 
@@ -64,7 +64,7 @@ class ProductAdapter(val productsCallback: ProductsCallback,val fadeOutAnimation
     }
 }
 
-interface ProductsCallback{
+interface ProductsCallback {
     fun favoriteProduct(product: Product)
     fun unFavoriteProduct(product: Product)
     fun addProductToCart(product: Product)

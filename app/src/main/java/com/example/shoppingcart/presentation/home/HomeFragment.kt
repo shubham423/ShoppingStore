@@ -53,7 +53,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
             viewModel.getProductsByCategory(category.id)
         })
         val fadeOutAnimation: Animation =
-            AnimationUtils.loadAnimation(requireContext(), R.anim.heart_anim)
+            AnimationUtils.loadAnimation(requireContext(), R.anim.scale_anim)
         categoryAdapter = CategoryAdapter(this, fadeOutAnimation)
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvProducts.adapter = categoryAdapter
