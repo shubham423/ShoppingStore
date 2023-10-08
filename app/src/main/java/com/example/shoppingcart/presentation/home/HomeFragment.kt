@@ -128,9 +128,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
             Toast.LENGTH_SHORT
         ).show()
     }
-
-    override fun onResume() {
-        super.onResume()
-    }
 }
 

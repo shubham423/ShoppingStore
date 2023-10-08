@@ -13,7 +13,7 @@ fun Product.toProductEntity(): ProductEntity {
         icon = this.icon,
         name = this.name,
         price = this.price,
-        categoryName = this.name,
+        categoryName = this.categoryName,
         categoryId = this.categoryId,
         isFavorite = this.isFavorite
     )
@@ -82,7 +82,7 @@ fun List<ProductEntity>.toProductsResponse(): ProductsResponse {
                     price = it.price,
                     categoryId = it.categoryId,
                     isFavorite = it.isFavorite,
-                    categoryName = it.categoryName
+                    categoryName =  products.first().categoryName
                 )
             }
         )
