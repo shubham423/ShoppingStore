@@ -109,12 +109,12 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_quantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:text="3"
+            tools:text="3"
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@color/black"

@@ -25,7 +25,12 @@ class CartViewModel @Inject constructor(private val repository: CartRepository) 
 
     fun updateProduct(product: Product) {
         viewModelScope.launch {
-            repository.updateCartProduct(product.toCartProductEntity())
+            if (product.quantity == 0) {
+                repository.removeFromCart(product.toCartProductEntity())
+            } else {
+                repository.updateCartProduct(product.toCartProductEntity())
+            }
+            getCartProducts()
         }
     }
 

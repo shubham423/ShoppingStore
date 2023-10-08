@@ -9,7 +9,7 @@ import coil.load
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.ItemCartProductBinding
 
-class CartProductsAdapter(val removeFromFavorite: (product: Product) -> Unit) :
+class CartProductsAdapter(val callback: CartAdapterCallback) :
     ListAdapter<Product, CartProductsAdapter.CartProductsViewHolder>(
         CartDiffCallback()
     ) {
@@ -21,6 +21,15 @@ class CartProductsAdapter(val removeFromFavorite: (product: Product) -> Unit) :
             binding.tvProductPrice.text = "₹${product.price.toString()}"
             binding.ivProduct.load(product.icon)
             binding.tvTotalPrice.text = "₹${(product.price * product.quantity).toInt()}"
+            binding.tvQuantity.text = product.quantity.toString()
+            binding.btnAddMinus.setOnClickListener {
+                val quantity = product.quantity
+                callback.decrementQuantity(product.copy(quantity = quantity - 1))
+            }
+            binding.btnPlus.setOnClickListener {
+                val quantity = product.quantity
+                callback.incrementQuantity(product.copy(quantity = quantity + 1))
+            }
         }
     }
 
@@ -43,4 +52,9 @@ class CartDiffCallback : DiffUtil.ItemCallback<Product>() {
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem == newItem
     }
+}
+
+interface CartAdapterCallback {
+    fun decrementQuantity(product: Product)
+    fun incrementQuantity(product: Product)
 }
