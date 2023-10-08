@@ -15,9 +15,9 @@ import javax.inject.Inject
 class CartViewModel @Inject constructor(private val repository: CartRepository) :
     ViewModel() {
 
-    private val _favoriteProductsFlow: MutableStateFlow<List<Product>> =
+    private val _cartProductsFlow: MutableStateFlow<List<Product>> =
         MutableStateFlow(emptyList())
-    val favoriteProductsFlow: MutableStateFlow<List<Product>> = _favoriteProductsFlow
+    val cartProductsFlow: MutableStateFlow<List<Product>> = _cartProductsFlow
 
     init {
         getCartProducts()
@@ -33,7 +33,7 @@ class CartViewModel @Inject constructor(private val repository: CartRepository) 
     private fun getCartProducts() {
         viewModelScope.launch {
             repository.getAllCartProducts().collect {
-                _favoriteProductsFlow.emit(it.map { it.toProduct() })
+                _cartProductsFlow.emit(it.map { it.toProduct() })
             }
 
         }

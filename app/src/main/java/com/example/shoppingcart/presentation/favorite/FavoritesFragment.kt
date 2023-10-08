@@ -8,6 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.shoppingcart.databinding.FragmentFavoritesBinding
 import com.example.shoppingcart.presentation.BaseFragment
+import com.example.shoppingcart.util.gone
+import com.example.shoppingcart.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -34,7 +36,12 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
     private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.favoriteProductsFlow.collect {
-                favoriteProductsAdapter.submitList(it)
+                if (it.isNotEmpty()) {
+                    binding.tvFavoritesEmpty.gone()
+                    favoriteProductsAdapter.submitList(it)
+                } else {
+                    binding.tvFavoritesEmpty.visible()
+                }
             }
         }
 
