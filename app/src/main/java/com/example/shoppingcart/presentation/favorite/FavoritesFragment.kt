@@ -34,8 +34,8 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
 
     private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.favoriteProducts.collect {
-                favoriteProductsAdapter.submitList(it.map { it.toProduct() })
+            viewModel.favoriteProductsFlow.collect {
+                favoriteProductsAdapter.submitList(it)
             }
         }
 

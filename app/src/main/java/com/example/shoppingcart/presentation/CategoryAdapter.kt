@@ -12,18 +12,19 @@ import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.databinding.ItemCategoryBinding
 import com.example.shoppingcart.presentation.home.HomeViewModel
 import com.example.shoppingcart.presentation.home.ProductAdapter
+import com.example.shoppingcart.presentation.home.ProductsCallback
 import com.example.shoppingcart.util.gone
 import com.example.shoppingcart.util.visible
 
 
-class CategoryAdapter(val viewModel: HomeViewModel,val fadeOutAnimation: Animation) :
+class CategoryAdapter(val productsCallback: ProductsCallback, val fadeOutAnimation: Animation) :
     ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
     inner class CategoryViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category) {
             binding.tvTitle.text = category.name
-            val productAdapter = ProductAdapter(viewModel,fadeOutAnimation)
+            val productAdapter = ProductAdapter(productsCallback,fadeOutAnimation)
             productAdapter.submitList(category.items)
             binding.productRecyclerView.layoutManager =
                 LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)

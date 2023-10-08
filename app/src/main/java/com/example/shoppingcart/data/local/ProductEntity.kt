@@ -8,5 +8,8 @@ data class ProductEntity(
     @PrimaryKey(autoGenerate = false) val id: Int,
     val icon: String,
     val name: String,
-    val price: Double
+    val price: Double,
+    val isFavorite: Boolean = false,
+    val categoryId:Int,
+    val categoryName:String
 )

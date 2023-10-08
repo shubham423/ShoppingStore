@@ -9,5 +9,4 @@ data class CartProductEntity(
     val icon: String,
     val name: String,
     val price: Double,
-    val isFavorite:Boolean
 )

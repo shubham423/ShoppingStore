@@ -15,38 +15,53 @@ import javax.inject.Inject
 
 class ProductRepository @Inject constructor(
     @ApplicationContext val context: Context,
-    private val productDao: CartProductsDao,
-    private val favoriteProductDao: ProductsDao
+    private val productDao: ProductsDao,
+    private val cartProductsDao: CartProductsDao
 ) {
 
     suspend fun insertProduct(product: ProductEntity) {
         productDao.insertProduct(product)
     }
 
-    suspend fun removeProductFromCart(product: ProductEntity) {
+    suspend fun insertProducts(product: List<ProductEntity>) {
+        productDao.insertAll(product)
+    }
+
+    suspend fun insertProductIncCart(product: CartProductEntity) {
+        cartProductsDao.insertProduct(product)
+    }
+
+    suspend fun updateProduct(product: ProductEntity) {
+        productDao.updateProduct(product)
+    }
+
+    suspend fun removeProductFromCart(product: CartProductEntity) {
+        cartProductsDao.deleteProduct(product)
+    }
+
+    suspend fun removeProduct(product: ProductEntity) {
         productDao.deleteProduct(product)
     }
 
-    suspend fun insertFavoriteProduct(favoriteProduct: CartProductEntity) {
-        favoriteProductDao.insertFavoriteProduct(favoriteProduct)
+    fun getAllCartProducts(): Flow<List<CartProductEntity>> {
+        return cartProductsDao.getAllProducts()
     }
 
-    suspend fun removeFavoriteProduct(favoriteProduct: CartProductEntity) {
-        favoriteProductDao.deleteFavoriteProduct(favoriteProduct)
-    }
-
-    fun getAllCartProducts(): Flow<List<ProductEntity>> {
+    fun getAllProducts(): Flow<List<ProductEntity>> {
         return productDao.getAllProducts()
     }
 
-    fun getAllFavoriteProducts(): Flow<List<CartProductEntity>> {
-        return favoriteProductDao.getAllFavoriteProducts()
+    fun isProductInFavorites(product: ProductEntity): Int {
+        return productDao.isProductFavorite(product.id)
     }
 
-     fun isProductInFavorites(productEntity: CartProductEntity): Int {
-        return favoriteProductDao.isProductInFavorites(productEntity.id)
+    fun getProductsByCategoryId(categoryId:Int): Flow<List<ProductEntity>> {
+        return productDao.getProductsByCategoryId(categoryId)
     }
 
+    fun getFavoriteProducts(): Flow<List<ProductEntity>> {
+        return productDao.getFavoriteProducts()
+    }
     fun getProductsResponse(): ProductsResponse? {
         val jsonFileString = getJsonDataFromAsset(context, "shopping.json")
         val type = object : TypeToken<ProductsResponse>() {}.type

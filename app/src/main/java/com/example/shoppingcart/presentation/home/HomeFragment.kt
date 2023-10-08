@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppingcart.R
+import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.DialogCatogoriesBinding
 import com.example.shoppingcart.databinding.FragmentHomeBinding
 import com.example.shoppingcart.presentation.BaseFragment
@@ -19,19 +21,20 @@ import com.example.shoppingcart.presentation.CategoryAdapter
 import com.example.shoppingcart.presentation.CategoryFilterAdapter
 import com.example.shoppingcart.util.gone
 import com.example.shoppingcart.util.setSafeOnClickListener
+import com.example.shoppingcart.util.toProductsResponse
 import com.example.shoppingcart.util.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var dialogBinding: DialogCatogoriesBinding
     private lateinit var dialog: Dialog
     private lateinit var categoryFilterAdapter: CategoryFilterAdapter
     private lateinit var categoryAdapter: CategoryAdapter
     override fun inflateBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
+        inflater: LayoutInflater, container: ViewGroup?
     ): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
     }
@@ -45,22 +48,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         dialog.setContentView(dialogBinding.root)
         categoryFilterAdapter = CategoryFilterAdapter(caterClicked = { category ->
             dialog.dismiss()
-            viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
-                val filteredList = categories.filter {
-                    it.name == category.name
-                }
-                categoryAdapter.submitList(filteredList)
-            }
+            viewModel.getProductsByCategory(category.id)
         })
-        val fadeOutAnimation: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.heart_anim)
-        categoryAdapter = CategoryAdapter(viewModel = viewModel,fadeOutAnimation)
+        val fadeOutAnimation: Animation =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.heart_anim)
+        categoryAdapter = CategoryAdapter(this, fadeOutAnimation)
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvProducts.adapter = categoryAdapter
         viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
             categoryAdapter.submitList(categories)
         }
-
         initClickListeners()
+        initObservers()
+    }
+
+    private fun initObservers() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.productsStateFlow.collect {
+                categoryAdapter.submitList(it?.categories ?: emptyList())
+            }
+        }
     }
 
     private fun initClickListeners() {
@@ -97,6 +105,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
             categoryFilterAdapter.submitList(categories)
         }
+    }
+
+    override fun favoriteProduct(product: Product) {
+        viewModel.updateProduct(product.copy(isFavorite = true))
+    }
+
+    override fun unFavoriteProduct(product: Product) {
+        viewModel.updateProduct(product.copy(isFavorite = false))
     }
 }
 

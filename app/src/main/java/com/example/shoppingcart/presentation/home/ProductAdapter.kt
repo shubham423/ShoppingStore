@@ -10,9 +10,8 @@ import coil.load
 import com.example.shoppingcart.R
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.ItemProductBinding
-import com.example.shoppingcart.util.toFavoriteProductEntity
 
-class ProductAdapter(val viewModel: HomeViewModel, val fadeOutAnimation: Animation) :
+class ProductAdapter(val productsCallback: ProductsCallback,val fadeOutAnimation: Animation) :
     ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     inner class ProductViewHolder(private val binding: ItemProductBinding) :
@@ -21,20 +20,20 @@ class ProductAdapter(val viewModel: HomeViewModel, val fadeOutAnimation: Animati
             binding.tvProductName.text = product.name
             binding.tvPrice.text = "$${product.price}"
             binding.ivProduct.load(product.icon)
-            if (viewModel.isProductInFavorite(product.toFavoriteProductEntity())) {
+            if (product.isFavorite) {
                 binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
             } else {
                 binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
             }
             binding.ivFavorite.setOnClickListener {
-                if (viewModel.isProductInFavorite(product.toFavoriteProductEntity())) {
-                    viewModel.removeFavoriteProduct(product.toFavoriteProductEntity())
+                if (product.isFavorite) {
+                    productsCallback.unFavoriteProduct(product)
                     binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
-                    binding.ivFavorite.startAnimation(fadeOutAnimation)
+//                    binding.ivFavorite.startAnimation(fadeOutAnimation)
                 } else {
-                    viewModel.addFavoriteProduct(product.toFavoriteProductEntity())
+                    productsCallback.favoriteProduct(product)
                     binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
-                    binding.ivFavorite.startAnimation(fadeOutAnimation)
+//                    binding.ivFavorite.startAnimation(fadeOutAnimation)
                 }
             }
         }
@@ -59,5 +58,10 @@ class ProductAdapter(val viewModel: HomeViewModel, val fadeOutAnimation: Animati
             return oldItem == newItem
         }
     }
+}
+
+interface ProductsCallback{
+    fun favoriteProduct(product: Product)
+    fun unFavoriteProduct(product: Product)
 }
 
