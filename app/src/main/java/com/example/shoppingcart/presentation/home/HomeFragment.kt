@@ -12,7 +12,9 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppingcart.R
@@ -63,17 +65,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
     private fun initObservers() {
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.productsStateFlow.collectLatest {
-                categoryAdapter.submitList(it?.categories ?: emptyList())
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.productsStateFlow.collectLatest {
+                    categoryAdapter.submitList(it?.categories ?: emptyList())
+                }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.cartCountFlow.collectLatest { count ->
-                if (count > 0) {
-                    binding.tvCartCount.visible()
-                    binding.tvCartCount.text = count.toString()
-                } else {
-                    binding.tvCartCount.gone()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.cartCountFlow.collectLatest { count ->
+                    if (count > 0) {
+                        binding.tvCartCount.visible()
+                        binding.tvCartCount.text = count.toString()
+                    } else {
+                        binding.tvCartCount.gone()
+                    }
                 }
             }
         }
@@ -132,9 +138,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
     override fun addProductToCart(product: Product) {
         viewModel.addProductToCart(product)
         Toast.makeText(
-            requireContext(),
-            getString(R.string.added_to_cart_successfully),
-            Toast.LENGTH_SHORT
+            requireContext(), getString(R.string.added_to_cart_successfully), Toast.LENGTH_SHORT
         ).show()
     }
 }

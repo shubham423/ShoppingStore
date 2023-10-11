@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shoppingcart.data.models.Product
 import com.example.shoppingcart.databinding.FragmentCartBinding
@@ -43,23 +45,26 @@ class CartFragment : BaseFragment<FragmentCartBinding>(),CartAdapterCallback {
 
     private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.cartProductsFlow.collect {
-                if (it.isNotEmpty()) {
-                    binding.rvCart.visible()
-                    binding.tvCartEmpty.gone()
-                    binding.viewGroupCheckout.visible()
-                    var price = 0
-                    it.forEach { price=price.plus(it.price * it.quantity).toInt() }
-                    cartProductsAdapter.submitList(it)
-                    binding.tvSubtotalValue.text = "₹${price}"
-                    binding.tvTotalValue.text = "₹${price.minus(4)}"
-                } else {
-                    binding.rvCart.gone()
-                    binding.viewGroupCheckout.gone()
-                    binding.tvCartEmpty.visible()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.cartProductsFlow.collect { it ->
+                    if (it.isNotEmpty()) {
+                        binding.rvCart.visible()
+                        binding.tvCartEmpty.gone()
+                        binding.viewGroupCheckout.visible()
+                        var price = 0
+                        it.forEach { price=price.plus(it.price * it.quantity).toInt() }
+                        cartProductsAdapter.submitList(it)
+                        binding.tvSubtotalValue.text = "₹${price}"
+                        binding.tvTotalValue.text = "₹${price - 4}"
+                    } else {
+                        binding.rvCart.gone()
+                        binding.viewGroupCheckout.gone()
+                        binding.tvCartEmpty.visible()
+                    }
                 }
             }
         }
+
     }
 
     override fun decrementQuantity(product: Product) {
