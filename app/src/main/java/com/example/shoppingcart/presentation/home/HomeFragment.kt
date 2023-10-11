@@ -51,7 +51,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
         dialog.setContentView(dialogBinding.root)
         categoryFilterAdapter = CategoryFilterAdapter(categoryClicked = { category ->
             dialog.dismiss()
-            viewModel.getProductsByCategory(category.id)
+            if (category.id == -1) {
+                viewModel.getAllProducts()
+            } else {
+                viewModel.getProductsByCategory(category.id)
+            }
+
         })
         val fadeOutAnimation: Animation =
             AnimationUtils.loadAnimation(requireContext(), R.anim.scale_anim)
@@ -83,11 +88,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.categoriesFlow.collectLatest { categories ->
+                    if (categories.isNotEmpty()) {
+                        categoryFilterAdapter.submitList(categories)
+                        showCustomDialog()
+                    }
+
+                }
+            }
+        }
     }
 
     private fun initClickListeners() {
         binding.btnCategories.setSafeOnClickListener {
-            showCustomDialog()
+            viewModel.getCategories()
             binding.btnCategories.gone()
             binding.btnCloseDialog.visible()
         }
@@ -121,9 +138,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
         dialog.setOnDismissListener {
             binding.btnCloseDialog.gone()
             binding.btnCategories.visible()
-        }
-        viewModel.getCategories().observe(viewLifecycleOwner) { categories ->
-            categoryFilterAdapter.submitList(categories)
         }
     }
 

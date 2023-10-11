@@ -15,6 +15,7 @@ import com.example.shoppingcart.util.toCartProductEntity
 import com.example.shoppingcart.util.toProductEntity
 import com.example.shoppingcart.util.toProductsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,8 +33,8 @@ class HomeViewModel @Inject constructor(
     private val _cartCountFlow: MutableStateFlow<Int> = MutableStateFlow(0)
     val cartCountFlow: MutableStateFlow<Int> = _cartCountFlow
 
-    private val _categoriesFlow: MutableStateFlow<List<Category>> = MutableStateFlow(emptyList())
-    val categoriesFlow: MutableStateFlow<List<Category>> = _categoriesFlow
+    private val _categoriesFlow: MutableSharedFlow<List<Category>> = MutableSharedFlow()
+    val categoriesFlow: MutableSharedFlow<List<Category>> = _categoriesFlow
 
     init {
         viewModelScope.launch {
@@ -53,7 +54,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getAllProducts() {
+     fun getAllProducts() {
         viewModelScope.launch {
             repository.getAllProducts().collect {
                 _productsStateFlow.emit(it.toProductsResponse())
@@ -89,10 +90,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getCategories(): LiveData<List<Category>> {
-        val data = MutableLiveData<List<Category>>()
-        val productsResponse = repository.getProductsResponse()
-        data.value = productsResponse?.categories ?: emptyList()
-        return data
+    fun getCategories() {
+        viewModelScope.launch {
+            val productsResponse = repository.getProductsResponse()
+            val newCategoriesList= arrayListOf<Category>()
+            newCategoriesList.addAll(productsResponse?.categories ?: emptyList())
+            newCategoriesList.add(Category(-1, emptyList(),"All"))
+            _categoriesFlow.emit(newCategoriesList)
+        }
     }
 }
