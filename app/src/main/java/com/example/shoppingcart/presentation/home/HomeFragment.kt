@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
     private lateinit var dialog: Dialog
     private lateinit var categoryFilterAdapter: CategoryFilterAdapter
     private lateinit var categoryAdapter: CategoryAdapter
+    var currentClickedProduct: Product? = null
+
     override fun inflateBinding(
         inflater: LayoutInflater, container: ViewGroup?
     ): FragmentHomeBinding {
@@ -100,6 +103,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.searchedCartProduct.collectLatest { cartProduct ->
+                    Log.d("HomeFragm", "$cartProduct")
+                    if (cartProduct == null) {
+                        currentClickedProduct?.let {
+                            viewModel.addProductToCart(it)
+
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.added_to_cart_successfully),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        val existingQuantity = cartProduct.quantity
+                        currentClickedProduct?.copy(quantity = existingQuantity + 1)?.let {
+                            viewModel.updateCarteProduct(it)
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.added_to_cart_successfully),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 
     private fun initClickListeners() {
@@ -150,10 +184,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ProductsCallback {
     }
 
     override fun addProductToCart(product: Product) {
-        viewModel.addProductToCart(product)
-        Toast.makeText(
-            requireContext(), getString(R.string.added_to_cart_successfully), Toast.LENGTH_SHORT
-        ).show()
+        currentClickedProduct=product
+        viewModel.getCartProductById(product.id)
     }
 }
 

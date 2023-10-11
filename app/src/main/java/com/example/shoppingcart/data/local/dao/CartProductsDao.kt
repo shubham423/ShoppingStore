@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.shoppingcart.data.local.entities.CartProductEntity
+import com.example.shoppingcart.data.local.entities.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -25,5 +26,8 @@ interface CartProductsDao {
 
     @Query("SELECT COUNT(*) FROM cart_products")
     fun getCartProductsCount(): Flow<Int>
+
+    @Query("SELECT * FROM cart_products WHERE id = :productId")
+     suspend fun getCartProductByCategoryId(productId: Int): CartProductEntity
 
 }

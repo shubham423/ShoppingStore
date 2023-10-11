@@ -1,9 +1,8 @@
 package com.example.shoppingcart.presentation.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shoppingcart.data.local.entities.CartProductEntity
 import com.example.shoppingcart.data.local.entities.ProductEntity
 import com.example.shoppingcart.data.models.Category
 import com.example.shoppingcart.data.models.Product
@@ -15,6 +14,7 @@ import com.example.shoppingcart.util.toCartProductEntity
 import com.example.shoppingcart.util.toProductEntity
 import com.example.shoppingcart.util.toProductsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -35,6 +35,9 @@ class HomeViewModel @Inject constructor(
 
     private val _categoriesFlow: MutableSharedFlow<List<Category>> = MutableSharedFlow()
     val categoriesFlow: MutableSharedFlow<List<Category>> = _categoriesFlow
+
+    private val _searchedCartProduct: MutableSharedFlow<CartProductEntity?> = MutableSharedFlow()
+    val searchedCartProduct: MutableSharedFlow<CartProductEntity?> = _searchedCartProduct
 
     init {
         viewModelScope.launch {
@@ -76,6 +79,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun updateCarteProduct(product: Product) {
+        viewModelScope.launch {
+            cartRepository.updateCartProduct(product.toCartProductEntity())
+        }
+    }
+
     fun addProductToCart(product: Product) {
         viewModelScope.launch {
             cartRepository.addToCart(product.toCartProductEntity())
@@ -97,6 +106,13 @@ class HomeViewModel @Inject constructor(
             newCategoriesList.addAll(productsResponse?.categories ?: emptyList())
             newCategoriesList.add(Category(-1, emptyList(),"All"))
             _categoriesFlow.emit(newCategoriesList)
+        }
+    }
+
+    fun getCartProductById(id:Int) {
+        viewModelScope.launch {
+           val cartProduct=cartRepository.getCartProductById(id)
+            _searchedCartProduct.emit(cartProduct)
         }
     }
 }

@@ -26,4 +26,8 @@ class CartRepositoryImpl @Inject constructor(private val dao: CartProductsDao) :
         return dao.getCartProductsCount()
     }
 
+    override suspend fun getCartProductById(id: Int): CartProductEntity {
+        return dao.getCartProductByCategoryId(id)
+    }
+
 }

@@ -17,7 +17,7 @@ fun View.gone() {
         this.visibility = View.GONE
 }
 
-fun View.setSafeOnClickListener(delay: Int = 500, onSafeClick: ((View) -> Unit)?) {
+fun View.setSafeOnClickListener(delay: Int = 200, onSafeClick: ((View) -> Unit)?) {
     val safeClickListener = onSafeClick?.let {
         SafeClickListener(delay) {
             onSafeClick(it)
