@@ -1,4 +1,10 @@
 # ShoppingStore
+## 📸 Video demo
+
+
+https://github.com/shubham423/ShoppingStore/assets/57858666/31ab9c5e-87de-48a0-a6d4-07baabf31e33
+
+
 ## 📸 Screenshots
 
 ||||
