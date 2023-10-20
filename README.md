@@ -1,4 +1,10 @@
 # ShoppingStore
+## 📸 Screenshots
+
+||||
+|:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
+| ![ss1](https://github.com/shubham423/AnimationPractice/assets/57858666/0c8bcb91-e92b-495a-a7a3-2c2ad41a0ba2)|![ss3](https://github.com/shubham423/AnimationPractice/assets/57858666/0aefd912-d80f-48e9-bee8-240461a8b53c)| ![ss2](https://github.com/shubham423/AnimationPractice/assets/57858666/2e3ba94d-cb85-4408-affa-7bec0efaf716) |
+| ![ss4](https://github.com/shubham423/AnimationPractice/assets/57858666/8031707a-f29a-4569-a7dc-765617c37f21)| ![ss5](https://github.com/shubham423/AnimationPractice/assets/57858666/5b635369-6042-41db-b3e5-33c116e7a046) | ![ss6](https://github.com/shubham423/AnimationPractice/assets/57858666/887fca32-92e0-433b-b763-68c78b148518)
 
 ## Built With
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
