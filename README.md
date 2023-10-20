@@ -14,7 +14,6 @@ https://github.com/shubham423/ShoppingStore/assets/57858666/31ab9c5e-87de-48a0-a
 
 ## Built With
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
-- [Jetpack Compose](https://developer.android.com/jetpack/compose) - Jetpack Compose is Android’s recommended modern toolkit for building native UI.
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For asynchronous and more..
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
   - [StateFlow](https://developer.android.com/topic/libraries/architecture/livedata) - tate-holder observable flow that emits the current and new state updates to its collectors.
